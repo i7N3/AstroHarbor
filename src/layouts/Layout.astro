@@ -1,0 +1,84 @@
+---
+import L from '@i18n/i18n-node'
+import { getLocale } from '@i18n/utils'
+import { CookieKeys } from '@utils/cookies'
+import GlobalCss from '@components/GlobalCss.astro'
+import Header from '@components/Header/index.svelte'
+import Toaster from '@components/Toaster/index.svelte'
+import { IS_PROD, PUBLIC_WEB_URL } from '@utils/config'
+
+export interface Props {
+	title?: string
+	customTitle?: string
+	ogImgUrl?: string
+	description?: string
+	noIndex?: boolean
+}
+
+const { title, description, customTitle, ogImgUrl, noIndex } = Astro.props
+const locale = getLocale(Astro)
+
+const _title = L[locale].seo.title() + ` - ${title}`
+
+const customDescription = description
+	? description
+	: L[locale].seo.description()
+
+// const jid = Astro.cookies.get(CookieKeys.JID)?.value
+---
+
+<!doctype html>
+<html lang={locale}>
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="robots" content={noIndex ? 'noindex' : 'all'} />
+		<meta name="viewport" content="width=device-width,initial-scale=1" />
+		<!-- <link rel="sitemap" href="/sitemap.xml" /> -->
+		<!-- <link rel="icon" type="image/png" href="/favicon.png" /> -->
+
+		{!customTitle && <title>{_title}</title>}
+		{customTitle && <title>{customTitle}</title>}
+
+		<meta property="og:type" content="website" />
+		<meta property="og:url" content={Astro.url.href} />
+		<meta name="description" content={customDescription} />
+		<meta property="og:description" content={customDescription} />
+		<meta name="twitter:card" content="summary_large_image" />
+		<meta name="twitter:title" content={_title} />
+		<meta name="twitter:description" content={customDescription} />
+		<meta
+			property="og:image"
+			content={`${ogImgUrl ? ogImgUrl : `${PUBLIC_WEB_URL}/og.webp`}`}
+		/>
+		<!-- <link
+			as="font"
+			rel="preload"
+			crossorigin="anonymous"
+			href="/fonts/sample-font.woff2"
+		/> -->
+
+		{
+			!customTitle && (
+				<meta
+					property="og:title"
+					content={`${L[locale].seo.title()}${title ? ` - ${title}` : ''}`}
+				/>
+			)
+		}
+		{customTitle && <meta property="og:title" content={customTitle} />}
+		<script
+			src="https://unpkg.com/htmx.org@1.9.5"
+			integrity="sha384-xcuj3WpfgjlKF+FXhSQFQ0ZNr39ln+hwjN3npfM9VBnUskLolQAcN80McRIVOPuO"
+			crossorigin="anonymous"></script>
+		<script src="https://unpkg.com/htmx.org/dist/ext/loading-states.js"
+		></script>
+	</head>
+
+	<body hx-ext="loading-states">
+		<Toaster {locale} client:load />
+		<Header client:load {locale} />
+		<slot />
+	</body>
+
+	<GlobalCss />
+</html>

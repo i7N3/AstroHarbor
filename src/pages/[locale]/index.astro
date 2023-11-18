@@ -1,0 +1,16 @@
+---
+import L from '@i18n/i18n-node'
+import { getLocale } from '@i18n/utils'
+import Layout from '../../layouts/Layout.astro'
+import Form from '@components/Form/index.svelte'
+import Hero from '@components/Hero/index.svelte'
+
+const locale = getLocale(Astro)
+---
+
+<Layout title="Home page">
+	<main>
+		<Hero {locale} client:load />
+		<Form {locale} client:visible />
+	</main>
+</Layout>

@@ -1,0 +1,13 @@
+{
+	"semi": false,
+	"useTabs": true,
+	"printWidth": 80,
+	"singleQuote": true,
+	"trailingComma": "none",
+	"pluginSearchDirs": ["."],
+	"plugins": ["prettier-plugin-svelte", "prettier-plugin-astro"],
+	"overrides": [
+		{ "files": "*.astro", "options": { "parser": "astro" } },
+		{ "files": "*.svelte", "options": { "parser": "svelte" } }
+	]
+}

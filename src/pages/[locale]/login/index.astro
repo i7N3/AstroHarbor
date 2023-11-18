@@ -1,0 +1,24 @@
+---
+import L from '@i18n/i18n-node'
+import { getLocale } from '@i18n/utils'
+import { isAuthorized } from '@utils/client'
+import Layout from '../../../layouts/Layout.astro'
+import LoginFlow from '@components/Login/Flow/index.svelte'
+import { getLoginState } from '@components/Login/Flow/helpers'
+
+const locale = getLocale(Astro)
+const authorized = await isAuthorized(Astro)
+
+if (authorized) {
+	// Call something with await for example
+}
+
+const origin = Astro.url.origin
+const state = getLoginState(authorized)
+---
+
+<Layout noIndex>
+	<main>
+		<LoginFlow client:load {locale} {origin} {state} />
+	</main>
+</Layout>

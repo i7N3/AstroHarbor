@@ -1,0 +1,8 @@
+---
+import { Routes } from '@utils/routing'
+import { getLocale } from '@i18n/utils'
+
+const locale = getLocale(Astro)
+// Keep 404 page as edge case here not in middleware
+return Astro.redirect(`/${locale}${Routes.HOME}`)
+---

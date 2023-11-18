@@ -1,0 +1,37 @@
+---
+import L from '@i18n/i18n-node'
+import { getLocale } from '@i18n/utils'
+import Form from '@components/Form/index.svelte'
+import { submitFormInputSchema } from '@utils/parsers'
+
+const locale = getLocale(Astro)
+
+if (Astro.request.method !== 'POST') {
+	return new Response(null, { status: 405 })
+}
+
+let errorMsg: string | undefined
+
+try {
+	const formData = await Astro.request.formData()
+	const data = Array.from(formData).reduce(
+		(acc, [key, val]) => {
+			acc[key] = val.toString()
+			return acc
+		},
+		{} as Record<string, string>
+	)
+
+	const input = submitFormInputSchema.parse(data)
+	throw new Error('Not implemented')
+} catch (err) {
+	errorMsg = L[locale].error()
+}
+---
+
+<Form
+	{locale}
+	{errorMsg}
+	client:visible
+	state={errorMsg ? 'error' : 'submitted'}
+/>
