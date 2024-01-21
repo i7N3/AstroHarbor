@@ -1,8 +1,6 @@
 <script lang="ts">
-	import Cookies from 'js-cookie'
 	import { onMount } from 'svelte'
 	import { fade } from 'svelte/transition'
-	import { CookieKeys } from '@utils/cookies'
 	import { logError } from '@utils/common/common'
 	import Error from '@components/Icons/Error.svelte'
 	import Success from '@components/Icons/Success.svelte'

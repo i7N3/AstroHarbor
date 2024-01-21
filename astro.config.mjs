@@ -18,7 +18,6 @@ const IS_PROD = import.meta.env.PROD
  * Also add this to /etc/hosts:
  *
  * - "127.0.0.1 google.com"
- * - "127.0.0.1 www.google.com"
  *
  */
 const DEV_HTTPS = false

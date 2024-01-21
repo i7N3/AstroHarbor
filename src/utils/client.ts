@@ -1,6 +1,6 @@
-import decode from 'jwt-decode'
 import { get } from 'lodash-es'
 import { CookieKeys } from './cookies'
+import { jwtDecode } from 'jwt-decode'
 import type { Context } from 'src/types'
 import { PUBLIC_API_URL } from '@utils/config'
 import type { OperationContext } from '@urql/core'
@@ -84,10 +84,10 @@ export const isAuthorized = async (astro: Context): Promise<boolean> => {
 	}
 
 	let accExp: number | undefined
-	const jidExp = get(decode(jid), 'exp') as number | undefined
+	const jidExp = get(jwtDecode(jid), 'exp') as number | undefined
 
 	if (acc) {
-		accExp = get(decode(acc), 'exp') as number | undefined
+		accExp = get(jwtDecode(acc), 'exp') as number | undefined
 	}
 
 	if (!jidExp || !accExp) {

@@ -1,5 +1,5 @@
-import decode from 'jwt-decode'
 import { get } from 'lodash-es'
+import { jwtDecode } from 'jwt-decode'
 import type { Context } from 'src/types'
 
 export const setCookies = (
@@ -31,7 +31,7 @@ export const clearCookies = (context: Context, key: string) => {
 export const isValidToken = (token: string | undefined) => {
 	if (!token) return false
 
-	const exp = get(decode(token), 'exp') as number | undefined
+	const exp = get(jwtDecode(token), 'exp') as number | undefined
 	if (!exp) return false
 
 	return new Date() < new Date(exp * 1000)
@@ -49,7 +49,7 @@ export const setAuthCookies = (
 	context: Context,
 	opt: { key: string; value: string }
 ) => {
-	const exp = get(decode(opt.value), 'exp') as number | undefined
+	const exp = get(jwtDecode(opt.value), 'exp') as number | undefined
 	const expires = exp ? new Date(exp * 1000) : undefined // to ms
 
 	const options = { path: '/' }

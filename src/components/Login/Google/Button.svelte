@@ -1,7 +1,5 @@
 <script lang="ts">
 	import L from '@i18n/i18n-node'
-	import Cookies from 'js-cookie'
-	import { CookieKeys } from '@utils/cookies'
 	import type { Locales } from '@i18n/i18n-types'
 	import {
 		googleProvider,
